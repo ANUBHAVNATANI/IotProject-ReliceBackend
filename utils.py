@@ -1,13 +1,14 @@
 from key import subscription_key,face_api_url,face_api_url_verify,headers
 import requests
 
-def get_face_id(image_url):
+def get_face_details(image_url):
     """
     This function take the face id of the preson from the image url
     Args:
         image_url: image_url from the blob storage of the person
     Returns:
-        face_id : Azure generated face id
+        face_details : It returns the details of the face using the azuer api
+        as as json response
     """
     params = {
         'returnFaceId': 'true',
@@ -18,8 +19,6 @@ def get_face_id(image_url):
     }
     response = requests.post(face_api_url, params=params,
                          headers=headers, json={"url": image_url})
-    # print(response)
-    #faceId = response.json()[0]['faceId']
     return response.json()
 
 
