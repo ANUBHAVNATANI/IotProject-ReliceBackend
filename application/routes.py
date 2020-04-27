@@ -15,7 +15,7 @@ def home():
 @app.route("/store",methods=["POST"])
 def store_images():
     try:
-        resp = request.json()
+        resp = request.json
         #get the image url
         im_url = resp['im_url']
         #get other details store them in the child database
@@ -44,22 +44,24 @@ def store_images():
 @app.route("/check",methods=["POST"])
 def check_images():
     try:
-        resp = request.json()
+        resp = request.json
         im_url = resp['im_url']
         im_details = get_face_details(im_url)
+        print(im_details)
         im_land_centroid = landmark_calc(im_details[0]['faceLandmarks'])
         fid = im_details[0]['faceId']
         gender = im_details[0]['faceAttributes']['gender']
         age = im_details[0]['faceAttributes']['age']
         #first do a selective serach through the database
-        images_to_match = Child.query.filter(filter_by=gender)
+        images_to_match = Child.query.filter_by(gender=gender)
         #select the relative images from the database
         for i in images_to_match:
             #compare those using the faceverify functionlity
             temp_res = face_compare(i.c_fid,fid)
             #chcek
             #param to be finetuned depending on the requirement of the accuracy of the user
-            if(temp_res['cofidence']>0.6):
+            print(temp_res)
+            if(temp_res['confidence']>0.6):
                 new_match = Match(m_fid=fid,im_land_centroid=im_land_centroid,age=age,image_url=im_url,gender=gender,c_m_fid=i.c_fid)
                 db.session.add(new_match)
                 try:
@@ -75,7 +77,7 @@ def check_images():
         #for checking the app errors
         return jsonify({'trace':traceback.format_exc()})
 
-@app.route("getinfo",methods=["GET"])
+@app.route("/getinfo",methods=["GET"])
 def get_info():
     try:
         #retrive each child from the list get the id of child 
@@ -85,10 +87,7 @@ def get_info():
         for child in child_list:
             match_list = Match.query.filter_by(c_m_fid = child.c_fid)
             try:
-                if(len(match_list)==0):
-                    res[(child.name,child.image_url)] = []
-                else:
-                    res[(child.name,child.image_url)] = [j.image_url for j in match_list]
+                res[child.image_url] = (child.name,[match.image_url for match in match_list])
             except:
                 return jsonify({'resp':"error"})
         return jsonify(res)
@@ -96,3 +95,28 @@ def get_info():
         #for checking the app errors
         return jsonify({'trace':traceback.format_exc()})
 
+"""
+Routes only for the testing purpose 
+"""
+"""
+@app.route("/checkdata",methods=["GET"])
+def get_data():
+    try:
+        child = Child.query.all()
+        for i in child:
+            print(i.c_fid)
+            print(i.im_land_centroid)
+            print(i.image_url)
+            print(i.matches)
+        match = Match.query.all()
+        for j in match:
+            print(j.m_fid)
+            print(j.im_land_centroid)
+            print(j.image_url)
+            print(j.age)
+            print(j.gender)
+            print(j.c_m_fid)    
+        return jsonify({'resp':"success"})
+    except:
+        return jsonify({'trace':traceback.format_exc()})
+"""

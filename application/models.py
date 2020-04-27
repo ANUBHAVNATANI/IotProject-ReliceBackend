@@ -17,7 +17,7 @@ class Child(db.Model):
     gender is also used to find the relative images quickly
     age is also used to find the images quickly
     """
-    c_fid = db.Colum(db.String,primary_key=True)
+    c_fid = db.Column(db.String,primary_key=True)
     im_land_centroid = db.Column(db.Integer)
     name = db.Column(db.String)
     age = db.Column(db.Integer)
@@ -34,7 +34,7 @@ class Match(db.Model):
     age = db.Column(db.Integer)
     image_url = db.Column(db.String)
     gender = db.Column(db.String)
-    c_m_fid = db.Column(db.String,db.ForeignKey('Child.c_fid'),nullable = False)
+    c_m_fid = db.Column(db.String,db.ForeignKey('child.c_fid'),nullable = False)
 
 """
 many to many relationship between the match and the child table

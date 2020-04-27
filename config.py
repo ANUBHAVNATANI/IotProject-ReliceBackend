@@ -6,9 +6,10 @@ basedir = path.abspath(path.dirname(__file__))
 class Config:
     #general config
     FLASK_DEBUG = 1
-    FLASK_APP = 'app_run.py'
+    FLASK_APP = 'app.py'
     #database config
     SQLALCHEMY_DATABASE_URI = db_uri
     SECRET_KEY = db_key
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     
