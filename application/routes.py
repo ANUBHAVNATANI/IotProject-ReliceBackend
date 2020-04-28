@@ -47,7 +47,7 @@ def check_images():
         resp = request.json
         im_url = resp['im_url']
         im_details = get_face_details(im_url)
-        print(im_details)
+        #print(im_details)
         im_land_centroid = landmark_calc(im_details[0]['faceLandmarks'])
         fid = im_details[0]['faceId']
         gender = im_details[0]['faceAttributes']['gender']
@@ -57,10 +57,11 @@ def check_images():
         #select the relative images from the database
         for i in images_to_match:
             #compare those using the faceverify functionlity
+            #print(i.c_fid,fid)
             temp_res = face_compare(i.c_fid,fid)
             #chcek
             #param to be finetuned depending on the requirement of the accuracy of the user
-            print(temp_res)
+            #print(temp_res)
             if(temp_res['confidence']>0.6):
                 new_match = Match(m_fid=fid,im_land_centroid=im_land_centroid,age=age,image_url=im_url,gender=gender,c_m_fid=i.c_fid)
                 db.session.add(new_match)
@@ -120,3 +121,19 @@ def get_data():
     except:
         return jsonify({'trace':traceback.format_exc()})
 """
+
+@app.route("/cleardatabase",methods=["GET"])
+def get_data():
+    try:
+        child = Child.query.delete()
+        match = Match.query.delete()
+        try:
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            return jsonify({'resp':e})
+        finally:
+            db.session.close()
+        return jsonify({'resp':"success"})
+    except:
+        return jsonify({'trace':traceback.format_exc()})
