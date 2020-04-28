@@ -11,5 +11,6 @@ class Config:
     SQLALCHEMY_DATABASE_URI = db_uri #environ['DATABASE_URL']
     SECRET_KEY = db_key
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    CORS_HEADERS = 'Content-Type'
 
     

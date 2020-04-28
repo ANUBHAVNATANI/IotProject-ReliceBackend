@@ -12,7 +12,7 @@ def create_app():
     Function Construct the core application for the flask   
     """
     app = Flask(__name__)
-    CORS(app,support_credentials=True)
+    CORS(app)
     app.config.from_object('config.Config')
     """
     Initializing the sqlalchemy db with the app
