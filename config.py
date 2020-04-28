@@ -8,7 +8,7 @@ class Config:
     FLASK_DEBUG = 1
     FLASK_APP = 'app.py'
     #database config
-    SQLALCHEMY_DATABASE_URI = db_uri
+    SQLALCHEMY_DATABASE_URI = environ['DATABASE_URL']
     SECRET_KEY = db_key
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
