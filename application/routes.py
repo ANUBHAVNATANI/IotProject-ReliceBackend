@@ -8,11 +8,14 @@ from . import db
 """
 Routes for the backend api
 """
+
 @app.route("/")
+@cross_origin(supports_credentials=True)
 def home():
     return render_template('home.html')
 
 @app.route("/store",methods=["POST"])
+@cross_origin(supports_credentials=True)
 def store_images():
     try:
         resp = request.json
@@ -42,6 +45,7 @@ def store_images():
         return jsonify({'resp':traceback.format_exc()})
 
 @app.route("/check",methods=["POST"])
+@cross_origin(supports_credentials=True)
 def check_images():
     try:
         resp = request.json
@@ -79,6 +83,7 @@ def check_images():
         return jsonify({'trace':traceback.format_exc()})
 
 @app.route("/getinfo",methods=["GET"])
+@cross_origin(supports_credentials=True)
 def get_info():
     try:
         #retrive each child from the list get the id of child 

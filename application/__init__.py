@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS,cross_origin
 
 """
 Setting up the database
@@ -11,6 +12,7 @@ def create_app():
     Function Construct the core application for the flask   
     """
     app = Flask(__name__)
+    CORS(app,support_credentials=True)
     app.config.from_object('config.Config')
     """
     Initializing the sqlalchemy db with the app

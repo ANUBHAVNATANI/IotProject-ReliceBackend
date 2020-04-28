@@ -11,3 +11,4 @@ Werkzeug==1.0.1
 requests
 psycopg2
 gunicorn
+flask_cors
