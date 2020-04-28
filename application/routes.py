@@ -36,7 +36,7 @@ def store_images():
             return jsonify({'resp':e})
         finally:
             db.session.close()
-        return jsonify({'resp':"chid added"})
+        return jsonify({'resp':"CADDED"})
     except:
         #for checking the app errors
         return jsonify({'resp':traceback.format_exc()})
@@ -72,7 +72,7 @@ def check_images():
                 finally:
                     db.session.close()
         #return the result if images matces store it in the database otherwise reject the image
-        return jsonify({'resp':"chid matched"})
+        return jsonify({'resp':"CMATCHED"})
     except:
         #for checking the app errors
         return jsonify({'trace':traceback.format_exc()})
