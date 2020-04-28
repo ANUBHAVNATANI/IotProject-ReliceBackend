@@ -4,7 +4,7 @@ import json
 from utils import get_face_details,landmark_calc,face_compare
 from .models import Child,Match
 from . import db
-
+from flask_cors import CORS,cross_origin
 """
 Routes for the backend api
 """
